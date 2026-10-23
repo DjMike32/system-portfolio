@@ -1,0 +1,292 @@
+@import "tailwindcss";
+
+/* ═══════════════════════════════════════════════════════════════════
+   DESIGN TOKENS — SYSTEM://PORTFOLIO
+   Paleta pensada para fondo oscuro (#05080f). Contrastes verificados
+   (WCAG 2.x, luminancia relativa) sobre --color-void / --color-panel:
+
+     ink        #dde8ff  16.3:1 / 15.4:1   AAA   texto primario
+     ink-dim    #8fa5cc   8.0:1 /  7.6:1   AAA   texto secundario
+     ink-off    #6f82a6   5.2:1 /  4.9:1   AA    texto terciario
+     glow       #00e5ff  13.0:1            AAA   acento primario
+     azure      #4a9eff   7.3:1            AAA   acento secundario
+     edge-strong#3d6ba8   3.7:1            AA(UI) bordes de interactivos
+
+   ink-ghost (#46546f, 2.6:1) es SOLO decorativo/aria-hidden: nunca texto.
+   ═══════════════════════════════════════════════════════════════════ */
+@theme {
+  /* ── Superficies ─────────────────────────────────────────── */
+  --color-void: #05080f; /* fondo de página */
+  --color-deep: #070c17; /* bandas entre ventanas / footer */
+  --color-panel: #0a1020; /* cuerpo de ventana */
+  --color-panel-hi: #0e1730; /* superficie elevada (hover) */
+  --color-panel-sunken: #060a14; /* pozos: tracks, chips, thumbs */
+
+  /* ── Bordes ──────────────────────────────────────────────── */
+  --color-edge: #1c2c4a; /* hairline decorativo */
+  --color-edge-bright: #2e4c7d; /* borde en hover */
+  --color-edge-strong: #3d6ba8; /* límite de interactivo (AA UI) */
+
+  /* ── Acentos ─────────────────────────────────────────────── */
+  --color-glow: #00e5ff;
+  --color-azure: #4a9eff;
+
+  /* ── Texto ───────────────────────────────────────────────── */
+  --color-ink: #dde8ff;
+  --color-ink-dim: #8fa5cc;
+  --color-ink-off: #6f82a6;
+  --color-ink-ghost: #46546f;
+
+  /* ── Estados ─────────────────────────────────────────────── */
+  --color-ok: #3dd68c;
+  --color-danger: #ff4d6a;
+
+  /* ── Tipografía HUD ──────────────────────────────────────── */
+  --font-display: "Orbitron", ui-sans-serif, system-ui, sans-serif;
+  --font-ui: "Rajdhani", ui-sans-serif, system-ui, sans-serif;
+  --font-data: "Share Tech Mono", ui-monospace, monospace;
+
+  /* ── Tipografía fluida ───────────────────────────────────── */
+  --text-fluid-xs: clamp(0.72rem, 0.7rem + 0.1vw, 0.78rem);
+  --text-fluid-sm: clamp(0.8125rem, 0.78rem + 0.18vw, 0.9rem);
+  --text-fluid-base: clamp(0.9375rem, 0.9rem + 0.25vw, 1.02rem);
+  --text-fluid-lg: clamp(1.0625rem, 0.98rem + 0.5vw, 1.25rem);
+  --text-fluid-h2: clamp(1.4rem, 1.12rem + 1.5vw, 2rem);
+  --text-fluid-h1: clamp(1.8rem, 1.05rem + 4vw, 3.75rem);
+
+  /* ── Motion ──────────────────────────────────────────────── */
+  --ease-hud: cubic-bezier(0.16, 1, 0.3, 1);
+  --ease-hud-in: cubic-bezier(0.7, 0, 0.84, 0);
+
+  /* ── Glows ───────────────────────────────────────────────── */
+  --shadow-glow-sm: 0 0 8px rgba(0, 229, 255, 0.45), 0 0 24px rgba(0, 229, 255, 0.15);
+  --shadow-glow-md: 0 0 16px rgba(0, 229, 255, 0.35), 0 0 48px rgba(0, 229, 255, 0.12);
+}
+
+/* ═══════════════════════════════════════════════════════════════════
+   BASE
+   ═══════════════════════════════════════════════════════════════════ */
+html {
+  scroll-padding-top: 5rem;
+  color-scheme: dark;
+  -webkit-text-size-adjust: 100%;
+}
+
+/* Scroll suave solo cuando el sistema no pide menos movimiento. */
+@media (prefers-reduced-motion: no-preference) {
+  html {
+    scroll-behavior: smooth;
+  }
+}
+
+body {
+  background: var(--color-void);
+  color: var(--color-ink);
+  font-family: var(--font-ui);
+  overflow-x: hidden;
+}
+
+::selection {
+  background: rgba(0, 229, 255, 0.25);
+  color: var(--color-ink);
+}
+
+:focus-visible {
+  outline: 2px solid var(--color-glow);
+  outline-offset: 3px;
+}
+
+/* Superficies táctiles: sin delay de 300 ms ni highlight por defecto */
+.tap {
+  touch-action: manipulation;
+  -webkit-tap-highlight-color: transparent;
+}
+
+/* ═══════════════════════════════════════════════════════════════════
+   VENTANAS DE SISTEMA — marco angular (clip-path)
+   ═══════════════════════════════════════════════════════════════════ */
+.window-clip {
+  clip-path: polygon(
+    16px 0,
+    100% 0,
+    100% calc(100% - 16px),
+    calc(100% - 16px) 100%,
+    0 100%,
+    0 16px
+  );
+}
+.window-clip-inner {
+  clip-path: polygon(
+    17px 1px,
+    calc(100% - 1px) 1px,
+    calc(100% - 1px) calc(100% - 17px),
+    calc(100% - 17px) calc(100% - 1px),
+    1px calc(100% - 1px),
+    1px 17px
+  );
+}
+
+/* ═══════════════════════════════════════════════════════════════════
+   FONDO (solo compositor, coste ~0)
+   ═══════════════════════════════════════════════════════════════════ */
+.scanlines {
+  background: repeating-linear-gradient(
+    0deg,
+    rgba(210, 235, 255, 0.03) 0 1px,
+    transparent 1px 3px
+  );
+}
+
+.bg-grid {
+  background-image:
+    linear-gradient(rgba(0, 229, 255, 0.035) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(0, 229, 255, 0.035) 1px, transparent 1px);
+  background-size: 48px 48px;
+  mask-image: radial-gradient(ellipse 90% 70% at 50% 30%, #000 40%, transparent 100%);
+}
+
+.bg-noise {
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2'/%3E%3C/filter%3E%3Crect width='160' height='160' filter='url(%23n)' opacity='0.55'/%3E%3C/svg%3E");
+  opacity: 0.04;
+}
+
+.bg-vignette {
+  background: radial-gradient(ellipse at center, transparent 55%, rgba(2, 4, 10, 0.8) 100%);
+}
+
+/* ═══════════════════════════════════════════════════════════════════
+   GLITCH DEL NOMBRE (ráfaga corta cada 9 s)
+   ═══════════════════════════════════════════════════════════════════ */
+.glitch {
+  position: relative;
+  display: inline-block;
+}
+.glitch-clone {
+  position: absolute;
+  inset: 0;
+  opacity: 0;
+  pointer-events: none;
+}
+.glitch-clone-a {
+  color: var(--color-glow);
+  animation: glitch-a 9s infinite;
+}
+.glitch-clone-b {
+  color: var(--color-danger);
+  animation: glitch-b 9s infinite;
+}
+
+@keyframes glitch-a {
+  0%, 94%, 100% {
+    opacity: 0;
+    transform: none;
+    clip-path: inset(0);
+  }
+  94.4% {
+    opacity: 0.85;
+    transform: translate(-3px, 1px);
+    clip-path: inset(8% 0 55% 0);
+  }
+  95% {
+    opacity: 0.85;
+    transform: translate(2px, -1px);
+    clip-path: inset(58% 0 12% 0);
+  }
+  95.6% {
+    opacity: 0.5;
+    transform: translate(-1px, 0);
+    clip-path: inset(30% 0 38% 0);
+  }
+}
+
+@keyframes glitch-b {
+  0%, 94%, 100% {
+    opacity: 0;
+    transform: none;
+    clip-path: inset(0);
+  }
+  94.2% {
+    opacity: 0.85;
+    transform: translate(3px, -1px);
+    clip-path: inset(60% 0 10% 0);
+  }
+  94.8% {
+    opacity: 0.85;
+    transform: translate(-2px, 1px);
+    clip-path: inset(15% 0 60% 0);
+  }
+  95.4% {
+    opacity: 0.5;
+    transform: translate(1px, 0);
+    clip-path: inset(40% 0 25% 0);
+  }
+}
+
+/* ═══════════════════════════════════════════════════════════════════
+   NAVEGACIÓN
+   ═══════════════════════════════════════════════════════════════════ */
+.nav-link {
+  position: relative;
+}
+.nav-link::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  bottom: -4px;
+  height: 1px;
+  width: 100%;
+  background: var(--color-glow);
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform 0.22s var(--ease-hud);
+}
+.nav-link:hover::after,
+.nav-link:focus-visible::after,
+.nav-link[aria-current]::after {
+  transform: scaleX(1);
+}
+.nav-link[aria-current] {
+  color: var(--color-glow);
+}
+
+/* ═══════════════════════════════════════════════════════════════════
+   SCROLLBAR DE CONTENIDO
+   ═══════════════════════════════════════════════════════════════════ */
+.sys-scroll {
+  scrollbar-width: thin;
+  scrollbar-color: rgba(0, 229, 255, 0.4) rgba(28, 44, 74, 0.35);
+}
+.sys-scroll::-webkit-scrollbar {
+  width: 6px;
+}
+.sys-scroll::-webkit-scrollbar-track {
+  background: rgba(28, 44, 74, 0.35);
+}
+.sys-scroll::-webkit-scrollbar-thumb {
+  background: rgba(0, 229, 255, 0.35);
+}
+.sys-scroll::-webkit-scrollbar-thumb:hover {
+  background: rgba(0, 229, 255, 0.55);
+}
+
+/* ═══════════════════════════════════════════════════════════════════
+   ACCESIBILIDAD
+   ═══════════════════════════════════════════════════════════════════ */
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+  /* Loops decorativos: apágalos del todo, no los dejes en el último keyframe */
+  .glitch-clone-a,
+  .glitch-clone-b {
+    display: none !important;
+  }
+}
