@@ -1,4 +1,4 @@
-import { Braces, Code2, Database, Monitor, Server, Terminal } from 'lucide-react'
+import { Braces, Code2, Database, Layers, Monitor, Server, Terminal } from 'lucide-react'
 import type { SkillIconName } from '../data/profile'
 
 interface SkillIconProps {
@@ -23,6 +23,8 @@ export function SkillIcon({ name, className }: SkillIconProps) {
       return <Database className={className} aria-hidden />
     case 'braces':
       return <Braces className={className} aria-hidden />
+    case 'layers':
+      return <Layers className={className} aria-hidden />
     default:
       return <Code2 className={className} aria-hidden />
   }

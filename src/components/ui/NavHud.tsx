@@ -3,6 +3,8 @@ import type { ComponentType } from 'react'
 export interface HudLink {
   href: string
   label: string
+  /** Nombre accesible alternativo cuando `label` es una abreviatura (p. ej. «CV») */
+  ariaLabel?: string
   icon: ComponentType<{ className?: string }>
 }
 
@@ -30,6 +32,7 @@ export function NavHud({ links, active }: NavHudProps) {
             <li key={l.href} className="flex-1">
               <a
                 href={l.href}
+                aria-label={l.ariaLabel}
                 aria-current={isActive ? 'location' : undefined}
                 className={`tap flex min-h-14 flex-col items-center justify-center gap-1 font-ui text-[0.72rem] font-semibold tracking-[0.1em] uppercase transition-colors duration-150 ${
                   isActive ? 'text-glow' : 'text-ink-off'

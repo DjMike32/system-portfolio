@@ -20,11 +20,17 @@ export const SKILL_LEVEL_ORDER: readonly SkillLevel[] = [
 ] as const
 
 /** Claves de icono aceptadas por `SkillIcon` (`src/lib/icons.tsx`). */
-export type SkillIconName = 'monitor' | 'server' | 'terminal' | 'database' | 'braces'
+export type SkillIconName =
+  | 'monitor'
+  | 'server'
+  | 'terminal'
+  | 'database'
+  | 'braces'
+  | 'layers'
 
 export interface SocialLink {
-  /** Clave de icono: 'github' | 'mail' */
-  id: 'github' | 'mail'
+  /** Clave del icono de marca en `SOCIAL_ICONS` (`HeroSection.tsx`) */
+  id: 'github' | 'linkedin' | 'mail'
   label: string
   url: string
 }
@@ -49,7 +55,7 @@ export interface SkillCategory {
   id: string
   /** Título de la categoría, p. ej. 'Frontend' */
   title: string
-  /** Clave de icono válida: 'monitor' | 'server' | 'terminal' | 'database' | 'braces' */
+  /** Clave de icono válida de `SkillIconName` (p. ej. 'monitor', 'layers') */
   icon: SkillIconName
   skills: Skill[]
 }
@@ -65,6 +71,10 @@ export interface Profile {
   /** Bio de 2-3 frases */
   bio: string
   socials: SocialLink[]
+  /** Experiencia laboral, de la más reciente a la más antigua */
+  experience: ExperienceItem[]
+  /** Formación reglada */
+  education: EducationItem[]
   skillCategories: SkillCategory[]
   projects: Project[]
 }
@@ -92,6 +102,39 @@ export interface Project {
   featured?: boolean
 }
 
+/** Entrada de experiencia laboral (sección «Trayectoria»). */
+export interface ExperienceItem {
+  /** slug único, p. ej. 'banhcafe' */
+  id: string
+  /** Puesto, p. ej. 'Programador' */
+  role: string
+  /** Empresa u organización */
+  org: string
+  /** Ciudad / país */
+  location: string
+  /** Periodo visible, p. ej. 'dic 2024 – Actualidad' */
+  period: string
+  /** true: muestra la insignia «Actualidad» */
+  current?: boolean
+  /** Una frase que resume el alcance del puesto */
+  summary: string
+  /** Logros concretos, como viñetas */
+  highlights: string[]
+  /** Tecnologías del puesto (chips) */
+  tech: string[]
+}
+
+/** Entrada de formación (sección «Trayectoria»). */
+export interface EducationItem {
+  id: string
+  /** Titulación, p. ej. 'Ingeniería en Sistemas' */
+  degree: string
+  /** Centro / universidad */
+  org: string
+  /** Periodo visible */
+  period: string
+}
+
 const GITHUB = 'https://github.com/DjMike32'
 
 export const profile: Profile = {
@@ -99,22 +142,70 @@ export const profile: Profile = {
   role: 'Fullstack Developer',
   tagline: 'C#/.NET · TypeScript · Vue & React — construyendo en serio desde 2019',
   avatar: '/assets/avatar.svg',
-  bio: 'Construyo productos web y móviles de punta a punta: .NET y Node.js en el backend, Vue/React y React Native en la interfaz, con PostgreSQL (Supabase) y Docker en producción. Me gusta el código claro, las interfaces con carácter y que las cosas simplemente funcionen.',
+  bio: 'Ingeniero de Sistemas con experiencia en desarrollo bancario: microservicios con .NET Minimal APIs sobre SQL Server e IBM DB2, interfaces con Vue y React, apps móviles con Expo y entregas automatizadas con Docker y CI/CD. Me gusta el código claro, las interfaces con carácter y que las cosas simplemente funcionen.',
   socials: [
     { id: 'github', label: 'GitHub', url: GITHUB },
-    { id: 'mail', label: 'Email', url: 'mailto:michaelchang277@gmail.com' },
+    {
+      id: 'linkedin',
+      label: 'LinkedIn',
+      url: 'https://linkedin.com/in/chang-michael-hn',
+    },
+    { id: 'mail', label: 'Email', url: 'mailto:mdchang21@gmail.com' },
+  ],
+
+  experience: [
+    {
+      id: 'banhcafe',
+      role: 'Programador',
+      org: 'BANHCAFE',
+      location: 'Tegucigalpa, Honduras',
+      period: 'dic 2024 – Actualidad',
+      current: true,
+      summary: 'Desarrollo de software bancario de punta a punta: microservicios, integración AS/400 y despliegues automatizados.',
+      highlights: [
+        'Microservicios con .NET Minimal APIs sobre SQL Server e IBM DB2, con Clean Architecture y principios SOLID.',
+        'Integración de sistemas AS/400 con programas RPG y objetos IBM i, llevando funciones del core a servicios web.',
+        'Páginas responsives para operaciones internas con Vue.js y ASP.NET Web Forms, consumiendo las APIs del sistema.',
+        'Documentación de APIs con Swagger/OpenAPI para consumo de terceros y equipos internos.',
+        'Despliegues con Docker y pipelines CI/CD en Jenkins y TeamCity; revisión de logs en Elasticsearch.',
+        'Control de versiones con Git en GitHub y Azure Repos.',
+      ],
+      tech: ['.NET', 'SQL Server', 'AS/400', 'Vue.js', 'Docker'],
+    },
+  ],
+
+  education: [
+    {
+      id: 'unah',
+      degree: 'Ingeniería en Sistemas',
+      org: 'Universidad Nacional Autónoma de Honduras',
+      period: '2019 – 2025',
+    },
   ],
 
   skillCategories: [
+    {
+      id: 'languages',
+      title: 'Lenguajes',
+      icon: 'braces',
+      skills: [
+        { id: 'cs', label: 'C#', level: 'primary', featured: true },
+        { id: 'ts', label: 'TypeScript', level: 'primary', featured: true },
+        { id: 'js', label: 'JavaScript', level: 'solid' },
+        { id: 'tsql', label: 'T-SQL / SQL', level: 'solid' },
+        { id: 'java', label: 'Java', level: 'practicing' },
+        { id: 'rpg', label: 'RPG / AS-400', level: 'practicing' },
+      ],
+    },
     {
       id: 'frontend',
       title: 'Frontend',
       icon: 'monitor',
       skills: [
-        { id: 'ts', label: 'TypeScript', level: 'primary', featured: true },
         { id: 'react', label: 'React / React Native', level: 'primary', featured: true },
         { id: 'vue', label: 'Vue 3', level: 'solid', featured: true },
         { id: 'tailwind', label: 'CSS / Tailwind', level: 'solid' },
+        { id: 'expo', label: 'Expo', level: 'practicing' },
         { id: 'astro', label: 'Astro', level: 'practicing' },
       ],
     },
@@ -123,11 +214,22 @@ export const profile: Profile = {
       title: 'Backend',
       icon: 'server',
       skills: [
-        { id: 'dotnet', label: 'C# / .NET', level: 'primary', featured: true },
+        { id: 'dotnet', label: '.NET / Minimal APIs', level: 'primary', featured: true },
         { id: 'node', label: 'Node.js', level: 'solid', featured: true },
-        { id: 'sql', label: 'PostgreSQL / Supabase', level: 'solid', featured: true },
         { id: 'api', label: 'APIs REST', level: 'solid' },
+        { id: 'aspnet', label: 'ASP.NET Web Forms', level: 'practicing' },
         { id: 'go', label: 'Go', level: 'learning' },
+      ],
+    },
+    {
+      id: 'data',
+      title: 'Datos',
+      icon: 'database',
+      skills: [
+        { id: 'postgres', label: 'PostgreSQL / Supabase', level: 'solid', featured: true },
+        { id: 'sqlserver', label: 'SQL Server', level: 'solid' },
+        { id: 'db2', label: 'IBM DB2', level: 'practicing' },
+        { id: 'elastic', label: 'Elasticsearch', level: 'practicing' },
       ],
     },
     {
@@ -136,9 +238,22 @@ export const profile: Profile = {
       icon: 'terminal',
       skills: [
         { id: 'docker', label: 'Docker', level: 'solid', featured: true },
+        { id: 'ci', label: 'CI/CD (GitHub Actions)', level: 'solid' },
         { id: 'linux', label: 'Linux / WSL', level: 'solid' },
-        { id: 'ci', label: 'CI/CD (GitHub Actions)', level: 'practicing' },
+        { id: 'jenkins', label: 'Jenkins', level: 'practicing' },
+        { id: 'teamcity', label: 'TeamCity', level: 'practicing' },
         { id: 'k8s', label: 'Kubernetes', level: 'learning' },
+      ],
+    },
+    {
+      id: 'practices',
+      title: 'Prácticas',
+      icon: 'layers',
+      skills: [
+        { id: 'micro', label: 'Microservicios', level: 'primary' },
+        { id: 'clean', label: 'Clean Architecture', level: 'solid' },
+        { id: 'solid', label: 'SOLID', level: 'solid' },
+        { id: 'swagger', label: 'Swagger / OpenAPI', level: 'practicing' },
       ],
     },
   ],
@@ -182,12 +297,12 @@ export const profile: Profile = {
       status: 'completed',
     },
     {
-      id: 'boardgame-store',
-      title: 'Mesa & Dados',
-      thumbnail: '/assets/projects/mesa-y-dados.svg',
+      id: 'mixed-games',
+      title: 'MixedGames',
+      thumbnail: '/assets/projects/mixed-games.svg',
       summary: 'Tienda online de juegos de mesa con catálogo y stock en vivo.',
       description:
-        'E-commerce para una tienda de juegos de mesa: catálogo, fichas de producto y disponibilidad de stock, servidos como sitio estático ultrarrápido con Astro y componentes Vue, respaldado por Supabase.',
+        'MixedGames es un e-commerce para una tienda de juegos de mesa: catálogo, fichas de producto y disponibilidad de stock, servidos como sitio estático ultrarrápido con Astro y componentes Vue, respaldado por Supabase.',
       features: [
         'Sitio estático con islas Vue (Astro)',
         'Catálogo y stock desde Supabase',
@@ -195,17 +310,19 @@ export const profile: Profile = {
         'Diseño responsive',
       ],
       tech: ['Astro', 'Vue 3', 'Supabase'],
+      // El repo público de este proyecto es `BoardGameStore`; el resto de
+      // repos de MixedGames son privados y no se enlazan.
       links: { github: `${GITHUB}/BoardGameStore` },
       year: 2025,
       status: 'completed',
     },
     {
-      id: 'boardgame-store-admin',
-      title: 'Mesa & Dados · Admin',
-      thumbnail: '/assets/projects/mesa-y-dados-admin.svg',
+      id: 'mixed-games-admin',
+      title: 'MixedGames · Admin',
+      thumbnail: '/assets/projects/mixed-games-admin.svg',
       summary: 'Back-office para gestionar el inventario de la tienda.',
       description:
-        'Panel interno para administrar el stock de la tienda de juegos de mesa: alta y edición de productos, control de existencias y organización del catálogo. Vue 3 + Vite con Supabase.',
+        'Panel interno de MixedGames para administrar el stock: alta y edición de productos, control de existencias y organización del catálogo. Vue 3 + Vite con Supabase.',
       features: [
         'Gestión de stock en tiempo real',
         'CRUD de productos',

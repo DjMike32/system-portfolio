@@ -10,11 +10,17 @@ import { GlitchText } from '../fx/GlitchText'
 import { Reveal } from '../ui/Reveal'
 import { SystemWindow } from '../ui/SystemWindow'
 import { TechChip } from '../ui/TechChip'
-import { GithubIcon } from '../ui/BrandIcons'
+import { GithubIcon, LinkedinIcon } from '../ui/BrandIcons'
 import { BTN_PRIMARY, BTN_SECONDARY } from '../ui/buttonStyles'
 
-const SOCIAL_ICONS: Record<string, ComponentType<{ className?: string }>> = {
+/**
+ * Icono de cada red social. Clave tipada con `SocialLink['id']`: añadir una
+ * red en `profile.ts` sin icono aquí es **error de compilación**, no un
+ * silencioso fallback al icono de GitHub.
+ */
+const SOCIAL_ICONS: Record<SocialLink['id'], ComponentType<{ className?: string }>> = {
   github: GithubIcon,
+  linkedin: LinkedinIcon,
   mail: Mail,
 }
 
@@ -82,6 +88,10 @@ export function HeroSection({ profile }: { profile: Profile }) {
     if (!target) return
     event.preventDefault()
     target.scrollIntoView({ behavior: reduce ? 'auto' : 'smooth', block: 'start' })
+    // El scroll es interpolado, así que el hash se escribe a mano: al copiar el
+    // enlace o recargar, `#projects` es coherente con lo que se ve en pantalla
+    // y `useScrollToHashOnMount` reposiciona igual que en un enlace profundo.
+    history.replaceState(null, '', '#projects')
   }
 
   return (

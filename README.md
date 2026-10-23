@@ -25,12 +25,21 @@ npm run preview  # servir el build
 
 **Todo el contenido vive en un solo archivo: [`src/data/profile.ts`](src/data/profile.ts)**
 
-- `profile` → nombre, rol, tagline, bio, avatar y redes (`socials`)
-- `skillCategories` → categorías (Frontend, Backend, DevOps) con `skills` planos:
-  `{ id, label, level, featured? }`, donde `level` es
-  `'primary' | 'solid' | 'practicing' | 'learning'` (se agrupan por nivel en la
-  UI, en ese orden). `featured: true` añade la tecnología al «stack destacado»
-  del hero.
+- `profile` → nombre, rol, tagline, bio, avatar y redes (`socials`:
+  GitHub, LinkedIn, Email)
+- `skillCategories` → categorías (Lenguajes, Frontend, Backend, Datos, DevOps,
+  Prácticas) con `skills` planos: `{ id, label, level, featured? }`, donde
+  `level` es `'primary' | 'solid' | 'practicing' | 'learning'` (se agrupan por
+  nivel en la UI, en ese orden). `featured: true` añade la tecnología al
+  «stack destacado» del hero.
+- `experience` → puesto, empresa, ubicación, periodo, `current?`, resumen,
+  `highlights` y `tech`; alimenta la sección «Trayectoria» junto a
+  `education` (titulación, centro y periodo).
+
+> **Anclas**: cada sección es un enlace profundo (`#hero`, `#skills`,
+> `#experience`, `#projects`). El navegador no sabe posicionar un `#hash` al
+> cargar porque las secciones aún no existen, así que `App.tsx` aplica el
+> scroll tras montar (y lo recoloca cuando llegan las webfonts).
 - `projects` → título, resumen, descripción, `features`, `tech` (3 como máximo
   para que los chips quepan en una fila), `links`, año, estado y `featured?`
   (muestra la etiqueta «Destacado»).
@@ -90,12 +99,19 @@ src/
 │  ├─ fx/                     BackgroundFX, Scanlines, CornerBrackets, GlitchText
 │  ├─ ui/                     SystemWindow, TechChip, buttonStyles, SectionHeader,
 │  │                          BrandIcons, Reveal, ScrollProgress, NavHud, AvatarFrame
-│  ├─ sections/               HeroSection, SkillsSection, ProjectsSection
+│  ├─ sections/               HeroSection, SkillsSection, ExperienceSection,
+│  │                          ProjectsSection
 │  └─ Navbar.tsx
 └─ App.tsx
 ```
 
 ## Despliegue
 
-El build es 100 % estático (`dist/`). Funciona tal cual en Vercel, Netlify,
-GitHub Pages o Cloudflare Pages.
+El build es 100 % estático (`dist/`).
+
+- **Producción**: <https://michaelchang.vercel.app> (proyecto Vercel
+  `michaelchang`, vinculado al repo GitHub).
+- **Automático**: cada `push` a `main` en
+  <https://github.com/DjMike32/system-portfolio> despliega en ~12 s; las ramas
+  generan *preview deployments* protegidos con SSO.
+- Funciona igual en Netlify, GitHub Pages o Cloudflare Pages sin cambios.

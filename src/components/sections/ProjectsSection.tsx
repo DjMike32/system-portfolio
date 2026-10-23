@@ -47,8 +47,8 @@ function CardHead({ project }: { project: Project }) {
         </h3>
         <p className="mt-1.5 font-ui text-fluid-sm leading-snug text-ink-dim">{project.summary}</p>
         <ul className="flex flex-wrap gap-1.5 pt-3">
-          {project.tech.map((t) => (
-            <TechChip key={t} label={t} />
+          {project.tech.map((t, i) => (
+            <TechChip key={`${i}-${t}`} label={t} />
           ))}
         </ul>
       </div>
@@ -101,8 +101,8 @@ function Details({
       </p>
 
       <ul className="mt-3 space-y-1.5">
-        {project.features.map((f) => (
-          <li key={f} className="flex items-start gap-2 font-ui text-fluid-sm text-ink">
+        {project.features.map((f, i) => (
+          <li key={`${i}-${f}`} className="flex items-start gap-2 font-ui text-fluid-sm text-ink">
             <span aria-hidden className="mt-1.5 h-1 w-1 shrink-0 rotate-45 bg-glow" />
             {f}
           </li>
@@ -282,7 +282,7 @@ export function ProjectsSection({ projects }: { projects: Project[] }) {
 
   return (
     <section id="projects" className="mx-auto max-w-6xl px-4 py-14 sm:px-6 sm:py-20">
-      <SectionHeader index="02" title="Proyectos" />
+      <SectionHeader index="03" title="Proyectos" />
 
       <SystemWindow title="Fichas técnicas" glow="primary">
         <motion.ul
