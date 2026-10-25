@@ -181,6 +181,39 @@ try {
   )
   check('reduced motion no anima geometría', conTransform === 0, `${conTransform} animaciones de transform`)
   await rm.close()
+
+  // ── 7. móvil: la tarjeta es un disclosure accesible ─────────────────────
+  const movil = await browser.newContext({ viewport: { width: 390, height: 844 }, hasTouch: true })
+  const p3 = await movil.newPage()
+  await p3.goto(BASE, { waitUntil: 'load' })
+  await p3.waitForTimeout(300)
+  await p3.locator('#projects').scrollIntoViewIfNeeded()
+
+  const boton = p3.locator('button', { hasText: 'Ver detalles' }).first()
+  const antes = await boton.getAttribute('aria-expanded')
+  const panelAntes = await p3.evaluate(() => {
+    const p = document.querySelector('[id$="-details"]')
+    return { inert: p?.hasAttribute('inert'), hidden: p?.getAttribute('aria-hidden') }
+  })
+  await boton.click()
+  await p3.waitForTimeout(350)
+  const despues = await boton.getAttribute('aria-expanded')
+  const panelDespues = await p3.evaluate(() => {
+    const p = document.querySelector('[id$="-details"]')
+    return { inert: p?.hasAttribute('inert'), hidden: p?.getAttribute('aria-hidden') }
+  })
+
+  check(
+    'móvil: aria-expanded alterna',
+    antes === 'false' && despues === 'true',
+    `${antes} -> ${despues}`,
+  )
+  check(
+    'móvil: inert/aria-hidden coherentes',
+    panelAntes.inert === true && panelAntes.hidden === 'true' && panelDespues.inert === false && panelDespues.hidden === 'false',
+    JSON.stringify({ panelAntes, panelDespues }),
+  )
+  await movil.close()
 } finally {
   await browser.close()
   server.close()
