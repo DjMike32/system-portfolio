@@ -312,7 +312,10 @@ export const profile: Profile = {
       tech: ['Astro', 'Vue 3', 'Supabase'],
       // El repo público de este proyecto es `BoardGameStore`; el resto de
       // repos de MixedGames son privados y no se enlazan.
-      links: { github: `${GITHUB}/BoardGameStore` },
+      // `demo` apunta SIEMPRE a la URL de producción: los previews de Vercel
+      // (`*-git-*.vercel.app`, los del equipo) están protegidos con SSO y un
+      // visitante vería la pantalla de login en vez del sitio.
+      links: { github: `${GITHUB}/BoardGameStore`, demo: 'https://mixed-games-hn.vercel.app' },
       year: 2025,
       status: 'completed',
     },
@@ -330,7 +333,8 @@ export const profile: Profile = {
         'Acceso privado con Supabase Auth',
       ],
       tech: ['Vue 3', 'Vite', 'Supabase'],
-      links: {},
+      // Back-office con Supabase Auth: el demo lleva a la pantalla de acceso.
+      links: { demo: 'https://mixed-games-admin.vercel.app' },
       year: 2025,
       status: 'completed',
     },
