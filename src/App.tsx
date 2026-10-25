@@ -9,6 +9,7 @@ import { HeroSection } from './components/sections/HeroSection'
 import { SkillsSection } from './components/sections/SkillsSection'
 import { ExperienceSection } from './components/sections/ExperienceSection'
 import { ProjectsSection } from './components/sections/ProjectsSection'
+import { BTN_PRIMARY, BTN_SECONDARY } from './components/ui/buttonStyles'
 
 const CURRENT_YEAR = new Date().getFullYear()
 
@@ -50,11 +51,28 @@ function useScrollToHashOnMount() {
 }
 
 function Footer() {
+  const mail = profile.socials.find((s) => s.id === 'mail')?.url ?? 'mailto:'
   return (
-    <footer className="border-t border-edge/60 bg-deep/60 py-8 pb-24 sm:pb-8">
-      <p className="mx-auto max-w-6xl px-4 text-center font-data text-xs text-ink-off sm:px-6">
-        © {CURRENT_YEAR} {profile.name} · {profile.role}
-      </p>
+    <footer id="contact" className="border-t border-edge/60 bg-deep/60 py-12 pb-24 sm:pb-12">
+      <div className="mx-auto flex max-w-6xl flex-col items-center gap-4 px-4 text-center sm:px-6">
+        <h2 className="font-display text-fluid-h2 font-bold tracking-[0.06em] text-ink uppercase">
+          ¿Hablamos?
+        </h2>
+        <p className="max-w-md font-ui text-fluid-sm text-ink-dim">
+          {profile.availability} · {profile.location}
+        </p>
+        <div className="flex flex-wrap items-center justify-center gap-3">
+          <a href={mail} className={BTN_PRIMARY}>
+            Escribirme
+          </a>
+          <a href={profile.cvUrl} download className={BTN_SECONDARY}>
+            Descargar CV (PDF)
+          </a>
+        </div>
+        <p className="mt-2 font-data text-xs text-ink-off">
+          © {CURRENT_YEAR} {profile.name} · {profile.role}
+        </p>
+      </div>
     </footer>
   )
 }
@@ -78,9 +96,9 @@ export default function App() {
         <Navbar />
         <main id="main" tabIndex={-1} className="outline-none">
           <HeroSection profile={profile} />
+          <ProjectsSection projects={profile.projects} />
           <SkillsSection categories={profile.skillCategories} />
           <ExperienceSection experience={profile.experience} education={profile.education} />
-          <ProjectsSection projects={profile.projects} />
         </main>
         <Footer />
       </div>

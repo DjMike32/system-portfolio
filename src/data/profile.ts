@@ -70,6 +70,12 @@ export interface Profile {
   avatar: string
   /** Bio de 2-3 frases */
   bio: string
+  /** Ruta del CV en PDF servido por el sitio */
+  cvUrl: string
+  /** Estado de disponibilidad (hero y contacto) */
+  availability: string
+  /** Ciudad / país */
+  location: string
   socials: SocialLink[]
   /** Experiencia laboral, de la más reciente a la más antigua */
   experience: ExperienceItem[]
@@ -142,6 +148,9 @@ export const profile: Profile = {
   role: 'Fullstack Developer',
   tagline: 'C#/.NET · TypeScript · Vue & React — construyendo en serio desde 2019',
   avatar: '/assets/avatar.svg',
+  cvUrl: '/CV_Michael_Chang_2026.pdf',
+  availability: 'Abierto a oportunidades remotas',
+  location: 'Tegucigalpa, Honduras',
   bio: 'Ingeniero de Sistemas con experiencia en desarrollo bancario: microservicios con .NET Minimal APIs sobre SQL Server e IBM DB2, interfaces con Vue y React, apps móviles con Expo y entregas automatizadas con Docker y CI/CD. Me gusta el código claro, las interfaces con carácter y que las cosas simplemente funcionen.',
   socials: [
     { id: 'github', label: 'GitHub', url: GITHUB },
@@ -339,12 +348,66 @@ export const profile: Profile = {
       status: 'completed',
     },
     {
-      id: 'agent-os-dotfiles',
-      title: 'AGENT-OS · Dotfiles',
+      id: 'agent-os',
+      title: 'Agent OS',
       thumbnail: '/assets/projects/agent-os.svg',
+      summary: 'Consola móvil para orquestar agentes y lanzar comandos por catálogo.',
+      description:
+        'PWA self-hosted para supervisar y dirigir agentes de OpenCode desde el móvil: tarjetas con estado en vivo, aprobación de permisos en un toque y un catálogo que ejecuta comandos por id —nunca por cadena de shell— con validación, cuotas y auditoría.',
+      features: [
+        'Sesiones de OpenCode con estado en tiempo real',
+        'Catálogo de comandos por id con re-autenticación',
+        'Sesiones revocables, TOTP y CSRF',
+        'Notificaciones push vía ntfy',
+      ],
+      tech: ['Node.js', 'PWA', 'OpenCode'],
+      links: {},
+      year: 2026,
+      status: 'active',
+    },
+    {
+      id: 'jobmail',
+      title: 'JobMail',
+      thumbnail: '/assets/projects/jobmail.svg',
+      summary: 'Clasifica el correo laboral con LLM y lo etiqueta en Gmail.',
+      description:
+        'Pipeline que ingiere Gmail de forma incremental, clasifica cada correo con reglas baratas más un LLM local y escribe la etiqueta JobTracker/<categoría> en la cuenta. Incluye migraciones, CLI, worker en contenedor y tests.',
+      features: [
+        'Ingesta incremental con history.list',
+        'Clasificación híbrida: reglas + LLM',
+        'Etiquetas automáticas en Gmail',
+        'PostgreSQL, Alembic y Docker Compose',
+      ],
+      tech: ['Python', 'PostgreSQL', 'LLM'],
+      links: {},
+      year: 2026,
+      status: 'active',
+    },
+    {
+      id: 'job-hunter',
+      title: 'Job Hunter',
+      thumbnail: '/assets/projects/job-hunter.svg',
+      summary: 'Buscador de ofertas que filtra, puntúa y avisa por Telegram.',
+      description:
+        'Sistema personal que recoge ofertas de varias fuentes (RSS, ATS y portales), las normaliza y deduplica, aplica filtros duros y las puntúa con un LLM. El bot de Telegram permite buscar, ver el perfil y forzar la ingesta.',
+      features: [
+        'Ingesta multi-fuente con deduplicación',
+        'Scoring con LLM y fallback heurístico',
+        'Bot de Telegram con comandos',
+        'Scheduler, digest diario y PWA',
+      ],
+      tech: ['Python', 'Telegram', 'SQLite'],
+      links: {},
+      year: 2026,
+      status: 'active',
+    },
+    {
+      id: 'dotfiles',
+      title: 'Dotfiles',
+      thumbnail: '/assets/projects/dotfiles.svg',
       summary: 'Entorno de terminal reproducible: zsh, tmux y Neovim.',
       description:
-        'Mi entorno de trabajo de terminal, reproducible de cero en una máquina nueva con un solo comando. Incluye zsh con zinit, tmux con barra temática, y Neovim con LSP, formateo y depuración, todo con un tema unificado.',
+        'Mi entorno de trabajo de terminal, reproducible de cero en una máquina nueva con un solo comando. Incluye zsh con zinit, tmux con barra temática y Neovim con LSP, formateo y depuración, todo con un tema unificado.',
       features: [
         'Instalador idempotente',
         'Neovim con LSP y DAP',
@@ -352,7 +415,7 @@ export const profile: Profile = {
         'Tema Catppuccin unificado',
       ],
       tech: ['Neovim', 'Lua', 'tmux'],
-      links: {},
+      links: { github: `${GITHUB}/dotfiles` },
       year: 2026,
       status: 'active',
     },

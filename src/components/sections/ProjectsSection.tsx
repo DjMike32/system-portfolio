@@ -20,7 +20,7 @@ const STATUS_META: Record<Project['status'], { label: string; dot: string }> = {
 function CardHead({ project }: { project: Project }) {
   return (
     <div className="flex min-h-0 flex-1 flex-col">
-      <div className="relative min-h-36 flex-1 overflow-hidden border-b border-edge/60">
+      <div className="relative aspect-video shrink-0 overflow-hidden border-b border-edge/60 bg-panel-sunken">
         <img
           src={project.thumbnail}
           alt=""
@@ -28,9 +28,13 @@ function CardHead({ project }: { project: Project }) {
           decoding="async"
           width={800}
           height={450}
-          className="h-full w-full object-cover opacity-90 transition-transform duration-500 ease-[var(--ease-hud)] group-hover/card:scale-105"
+          className="h-full w-full object-cover object-top transition-transform duration-500 ease-[var(--ease-hud)] group-hover/card:scale-[1.04]"
         />
-        <div aria-hidden className="absolute inset-0 bg-linear-to-t from-panel-hi/90 to-transparent" />
+        <div aria-hidden className="absolute inset-0 bg-linear-to-t from-panel-hi/80 to-transparent" />
+        <span className="absolute bottom-3 left-3 inline-flex items-center gap-1.5 border border-edge/70 bg-void/85 px-1.5 py-0.5 font-data text-[0.7rem] text-ink-dim">
+          <span aria-hidden className={`h-1.5 w-1.5 ${STATUS_META[project.status].dot}`} />
+          {STATUS_META[project.status].label}
+        </span>
         {project.featured && (
           <span className="absolute top-3 left-3 border border-glow/50 bg-void/85 px-1.5 py-0.5 font-data text-[0.7rem] tracking-[0.14em] text-glow uppercase">
             Destacado
@@ -169,7 +173,7 @@ function ProjectCard({ project, compact }: { project: Project; compact: boolean 
     return (
       <motion.li variants={itemRise}>
         <div
-          className={`group/card overflow-hidden border transition-[color,border-color,background-color,box-shadow] duration-300 ease-[var(--ease-hud)] ${
+          className={`group/card overflow-hidden border transition-[color,border-color,background-color,box-shadow] duration-300 ease-[var(--ease-hud)] [contain:layout_paint] ${
             open ? 'border-glow/60 bg-panel shadow-glow-sm' : 'border-edge bg-panel-hi/70'
           }`}
         >
@@ -180,6 +184,7 @@ function ProjectCard({ project, compact }: { project: Project; compact: boolean 
               type="button"
               ref={openerRef}
               onClick={toggleDisclosure}
+              aria-label={`Ver detalles de ${project.title}`}
               aria-expanded={open}
               aria-controls={detailsId}
               className="tap flex min-h-11 w-full items-center justify-center gap-2 border border-edge bg-void/50 font-ui text-xs font-semibold tracking-[0.1em] text-ink-dim uppercase transition-colors duration-150 ease-[var(--ease-hud)] hover:border-glow/70 hover:text-glow"
@@ -224,7 +229,7 @@ function ProjectCard({ project, compact }: { project: Project; compact: boolean 
       <div className="relative h-[24rem] [perspective:1200px]">
         <motion.div
           className="relative h-full w-full"
-          style={{ transformStyle: 'preserve-3d' }}
+          style={{ transformStyle: 'preserve-3d', willChange: 'transform' }}
           animate={{ rotateY: open ? 180 : 0 }}
           transition={reduce ? { duration: 0 } : SPRING.flip}
         >
@@ -234,11 +239,7 @@ function ProjectCard({ project, compact }: { project: Project; compact: boolean 
           <div
             aria-hidden={open}
             inert={open}
-            onClick={(event) => {
-              if (event.target !== event.currentTarget) return
-              openCard()
-            }}
-            className="absolute inset-0 flex cursor-pointer flex-col border border-edge bg-panel-hi/70 transition-colors duration-300 ease-[var(--ease-hud)] group-hover/card:border-edge-strong"
+            className="absolute inset-0 flex flex-col border border-edge-strong/50 bg-panel-hi/70 transition-colors duration-300 ease-[var(--ease-hud)] group-hover/card:border-edge-strong"
             style={{ backfaceVisibility: 'hidden' }}
           >
             <CardHead project={project} />
@@ -247,6 +248,7 @@ function ProjectCard({ project, compact }: { project: Project; compact: boolean 
                 type="button"
                 ref={openerRef}
                 onClick={openCard}
+                aria-label={`Ver detalles de ${project.title}`}
                 aria-expanded={open}
                 aria-controls={detailsId}
                 className="tap flex min-h-11 w-full items-center justify-center gap-2 border border-glow/50 bg-glow/5 font-ui text-xs font-semibold tracking-[0.1em] text-glow uppercase transition-colors duration-150 ease-[var(--ease-hud)] hover:bg-glow/15"
@@ -282,7 +284,7 @@ export function ProjectsSection({ projects }: { projects: Project[] }) {
 
   return (
     <section id="projects" className="mx-auto max-w-6xl px-4 py-14 sm:px-6 sm:py-20">
-      <SectionHeader index="03" title="Proyectos" />
+      <SectionHeader index="01" title="Proyectos" />
 
       <SystemWindow title="Fichas técnicas" glow="primary">
         <motion.ul

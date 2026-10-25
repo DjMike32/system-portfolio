@@ -90,7 +90,7 @@ export function ExperienceSection({
 
   return (
     <section id="experience" className="mx-auto max-w-6xl px-4 py-14 sm:px-6 sm:py-20">
-      <SectionHeader index="02" title="Trayectoria" />
+      <SectionHeader index="03" title="Trayectoria" />
 
       <div className="grid gap-4 lg:grid-cols-[1.5fr_1fr] lg:gap-5">
         <SystemWindow title="Experiencia" glow="secondary">

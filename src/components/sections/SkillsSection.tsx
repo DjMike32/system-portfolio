@@ -70,7 +70,7 @@ export function SkillsSection({ categories }: { categories: SkillCategory[] }) {
 
   return (
     <section id="skills" className="mx-auto max-w-6xl px-4 py-14 sm:px-6 sm:py-20">
-      <SectionHeader index="01" title="Stack técnico" />
+      <SectionHeader index="02" title="Stack técnico" />
       <SystemWindow title="Niveles de conocimiento" glow="secondary">
         <motion.ul
           className="grid list-none gap-4 sm:grid-cols-2 lg:grid-cols-3 lg:gap-5"

@@ -2,16 +2,15 @@ import { Layers, User, FolderGit2, Briefcase } from 'lucide-react'
 import { useActiveSection } from '../lib/useActiveSection'
 import { NavHud, type HudLink } from './ui/NavHud'
 
-const SECTION_IDS = ['hero', 'skills', 'experience', 'projects'] as const
+const SECTION_IDS = ['hero', 'projects', 'skills', 'experience'] as const
 
 const LINKS: readonly HudLink[] = [
   { href: '#hero', label: 'Perfil', icon: User },
-  { href: '#skills', label: 'Stack', icon: Layers },
-  // «CV» (experiencia + formación): etiqueta corta a propósito, para que quepa
-  // en una línea dentro del HUD inferior de móvil; el nombre accesible completo
-  // distingue la sección del PDF de CV que también sirve el sitio.
-  { href: '#experience', label: 'CV', ariaLabel: 'CV · Trayectoria', icon: Briefcase },
   { href: '#projects', label: 'Proyectos', icon: FolderGit2 },
+  { href: '#skills', label: 'Stack', icon: Layers },
+  // «Trayectoria»: el PDF del CV se descarga desde el hero y el pie, así que la
+  // sección no se llama «CV» para no prometer una descarga que no hace.
+  { href: '#experience', label: 'Trayectoria', ariaLabel: 'Trayectoria y formación', icon: Briefcase },
 ]
 
 export function Navbar() {
