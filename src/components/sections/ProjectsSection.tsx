@@ -240,7 +240,7 @@ function ProjectCard({ project, compact }: { project: Project; compact: boolean 
             aria-hidden={open}
             inert={open}
             className="absolute inset-0 flex flex-col border border-edge-strong/50 bg-panel-hi/70 transition-colors duration-300 ease-[var(--ease-hud)] group-hover/card:border-edge-strong"
-            style={{ backfaceVisibility: 'hidden' }}
+            style={{ backfaceVisibility: 'hidden', transform: 'translateZ(0)' }}
           >
             <CardHead project={project} />
             <div className="shrink-0 px-4 pb-4">
@@ -264,7 +264,7 @@ function ProjectCard({ project, compact }: { project: Project; compact: boolean 
             role="group"
             aria-label={`Detalles de ${project.title}`}
             className="sys-scroll absolute inset-0 overflow-y-auto border border-glow/60 bg-panel shadow-glow-sm"
-            style={{ backfaceVisibility: 'hidden', transform: 'rotateY(180deg)' }}
+            style={{ backfaceVisibility: 'hidden', transform: 'rotateY(180deg) translateZ(0)' }}
             aria-hidden={!open}
             inert={!open}
           >

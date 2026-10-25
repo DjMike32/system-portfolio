@@ -29,7 +29,7 @@ export const EASE: Record<'out' | 'in' | 'std', [number, number, number, number]
 
 /** Springs. `flip` está críticamente amortiguado para no emborronar texto. */
 export const SPRING = {
-  flip: { type: 'spring' as const, stiffness: 180, damping: 27, mass: 1 },
+  flip: { type: 'spring' as const, stiffness: 230, damping: 30, mass: 0.9 },
   hover: { type: 'spring' as const, stiffness: 320, damping: 30, mass: 0.7 },
   chip: { type: 'spring' as const, stiffness: 420, damping: 32, mass: 0.6 },
   tap: { type: 'spring' as const, stiffness: 520, damping: 34, mass: 0.5 },

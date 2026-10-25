@@ -115,3 +115,14 @@ El build es 100 % estático (`dist/`).
   <https://github.com/DjMike32/system-portfolio> despliega en ~12 s; las ramas
   generan *preview deployments* protegidos con SSO.
 - Funciona igual en Netlify, GitHub Pages o Cloudflare Pages sin cambios.
+
+## Tests
+
+```bash
+npm test        # unitarios (Vitest + Testing Library, jsdom)
+npm run test:e2e  # E2E: CLS, foco del flip, frames con CPU 4x, reduced motion
+```
+
+El E2E usa `playwright-core` con el Chromium cacheado en `~/.cache/ms-playwright`
+y sirve `dist/` en local; no descarga navegadores. Antes hay que compilar:
+`npm run build`.
