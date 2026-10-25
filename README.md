@@ -126,3 +126,7 @@ npm run test:e2e  # E2E: CLS, foco del flip, frames con CPU 4x, reduced motion
 El E2E usa `playwright-core` con el Chromium cacheado en `~/.cache/ms-playwright`
 y sirve `dist/` en local; no descarga navegadores. Antes hay que compilar:
 `npm run build`.
+
+## Arquitectura
+
+Diagrama interactivo: [`docs/arquitectura.html`](docs/arquitectura.html) (ábrelo en el navegador). Resumen, tabla de componentes y el mismo grafo en Mermaid: [`docs/ARQUITECTURA.md`](docs/ARQUITECTURA.md).
